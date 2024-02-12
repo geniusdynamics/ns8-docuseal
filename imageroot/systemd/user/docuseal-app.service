@@ -23,7 +23,6 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/docuseal-app.pid \
     --pod-id-file %t/docuseal.pod-id --replace -d --name  docuseal-app \
     --volume docuseal-app:/data \
     --env=DOCUSEAL* \
-    --env=FORCE_SSL=${HOST} \
     --env=HOST=${HOST} \
     --env 'DATABASE_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/docuseal"' \
     ${DOCUSEAL_IMAGE}
