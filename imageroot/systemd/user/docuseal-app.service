@@ -22,9 +22,9 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/docuseal-app.pid \
     --cidfile %t/docuseal-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/docuseal.pod-id --replace -d --name  docuseal-app \
     --volume docuseal-app:/data \
-    --env=DOCUSEAL* \
+    --env=DOCUSEAL_* \
     --env=HOST=${HOST} \
-    --env 'DATABASE_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/docuseal"' \
+    --env 'DATABASE_URL="postgresql://postgres:Nethesis%2C1234@127.0.0.1:5432/docuseal"' \
     ${DOCUSEAL_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/docuseal-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP docuseal-app
