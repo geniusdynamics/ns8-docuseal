@@ -12,11 +12,12 @@ import agent
 # Try to parse the stdin as JSON.
 # If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
-
+host = data.get("host", "")
+HOST = "https://"+host
 #This is specific to you module, so you need to change it accordingly.
 # we read a json stdin {"vars1":true, "var2":"foo", "vars3": 3} and we writ it to .config/state/environment
 # Upper case to set environment variable and minor case to read from stdin
-
+agent.set_env("HOST", "host")
 # this values must exists in the json stdin
 # agent.set_env("MAIL_SERVER", data["mail_server"])
 # agent.set_env("LDAP_DOMAIN", data["ldap_domain"])
