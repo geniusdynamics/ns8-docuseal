@@ -17,7 +17,7 @@ HOST = "https://"+host
 #This is specific to you module, so you need to change it accordingly.
 # we read a json stdin {"vars1":true, "var2":"foo", "vars3": 3} and we writ it to .config/state/environment
 # Upper case to set environment variable and minor case to read from stdin
-agent.set_env("HOST", "host")
+agent.set_env("HOST", HOST)
 # this values must exists in the json stdin
 # agent.set_env("MAIL_SERVER", data["mail_server"])
 # agent.set_env("LDAP_DOMAIN", data["ldap_domain"])
@@ -31,4 +31,4 @@ agent.set_env("HOST", "host")
 
 # Make sure everything is saved inside the environment file
 # just before starting systemd unit
-#agent.dump_env()
+agent.dump_env()
