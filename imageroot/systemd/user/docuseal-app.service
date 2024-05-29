@@ -12,6 +12,7 @@ After=docuseal.service postgresql-app.service
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%S/state/environment
 EnvironmentFile=-%S/state/smarthost.env
+EnvironmentFile=-%S/state/database.env
 WorkingDirectory=%S/state
 Restart=always
 TimeoutStopSec=70
@@ -24,7 +25,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/docuseal-app.pid \
     --volume docuseal-app:/data:Z \
     --env=DOCUSEAL_* \
     --env=HOST=${HOST} \
-    --env DATABASE_URL="postgresql://postgres:Nethesis1234@127.0.0.1:5432/docuseal" \
+    --env DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_ROOT_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}" \
     ${DOCUSEAL_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/docuseal-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP docuseal-app
