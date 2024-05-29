@@ -14,3 +14,4 @@ exec 1>&2
 touch smarthost.env
 
 systemctl --user enable --now docuseal.service
+systemctl --user restart docuseal.service
