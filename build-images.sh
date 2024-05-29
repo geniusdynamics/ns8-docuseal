@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/compgeniuses}"
 # Configure the image name
 reponame="docuseal"
-docuseal_version="1.4.3"
+docuseal_version="1.5.8"
 # Create a new empty container image
 container=$(buildah from scratch)
 
