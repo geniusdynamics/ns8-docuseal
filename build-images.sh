@@ -14,7 +14,7 @@ images=()
 repobase="${REPOBASE:-ghcr.io/geniusdynamics}"
 # Configure the image name
 reponame="docuseal"
-docuseal_version="1.6.4"
+docuseal_version="1.6.5"
 # Create a new empty container image
 container=$(buildah from scratch)
 
