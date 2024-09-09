@@ -1,8 +1,7 @@
 # ns8-docuseal
 
-This is a template module for [NethServer 8](https://github.com/NethServer/ns8-core).
+This is a Docuseal module for [NethServer 8](https://github.com/NethServer/ns8-core).
 To start a new module from it:
-
 
 ## Install
 
