@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import sys
+import agent
+import os
+
+# Try to parse the stdin as JSON.
+# If parsing fails, output everything to stderr
+data = json.load(sys.stdin)
+
+
+def generate_random_password(length):
+    # Generate random bytes and convert them to a hexadecimal string
+    random_bytes = os.urandom(length)
+    password = random_bytes.hex()
+    return password[:length]
+
+
+# this values must exists in the json stdin
+
+# Configure postgres Variables to database.env
+POSTGRES_DB = data.get("POSTGRES_DB", "docuseal")
+POSTGRES_USER = data.get("POSTGRES_USER", "postgres")
+POSTGRES_PASSWORD = generate_random_password(16)
+POSTGRES_HOST = data.get("POSTGRES_HOST", "postgresql-app")
+POSTGRES_PORT = data.get("POSTGRES_PORT", "5432")
+POSTGRES_NON_ROOT_USER = data.get("POSTGRES_NON_ROOT_USER", "docuseal")
+POSTGRES_NON_ROOT_PASSWORD = generate_random_password(16)
+
+db_config = {
+    "POSTGRES_DB": POSTGRES_DB,
+    "POSTGRES_USER": POSTGRES_USER,
+    "POSTGRES_PASSWORD": f"{POSTGRES_PASSWORD}",
+    "POSTGRES_NON_ROOT_USER": POSTGRES_NON_ROOT_USER,
+    "POSTGRES_NON_ROOT_PASSWORD": f"{POSTGRES_NON_ROOT_PASSWORD}",
+}
+agent.write_envfile("database.env", db_config)
+
+
+# Make sure everything is saved inside the environment file
+# just before starting systemd unit
+agent.dump_env()

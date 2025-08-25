@@ -17,26 +17,13 @@ HOST = "https://"+host
 #This is specific to you module, so you need to change it accordingly.
 # we read a json stdin {"vars1":true, "var2":"foo", "vars3": 3} and we writ it to .config/state/environment
 # Upper case to set environment variable and minor case to read from stdin
-agent.set_env("HOST", HOST)
+
 # this values must exists in the json stdin
 
 # Configure postgres Variables to database.env
-POSTGRES_DB = data.get("POSTGRES_DB", "docuseal")
-POSTGRES_USER = data.get("POSTGRES_USER", "postgres")
-POSTGRES_PASSWORD = data.get("POSTGRES_PASSWORD", "Nethesis1234")
-POSTGRES_HOST = data.get("POSTGRES_HOST", "postgresql-app")
-POSTGRES_PORT = data.get("POSTGRES_PORT", "5432")
-POSTGRES_NON_ROOT_USER = data.get("POSTGRES_NON_ROOT_USER","docuseal")
-POSTGRES_NON_ROOT_PASSWORD = data.get("POSTGRES_NON_ROOT_PASSWORD","Nethesis1234")
-
-db_config = {
-    "POSTGRES_DB": POSTGRES_DB,
-    "POSTGRES_USER": POSTGRES_USER,
-    "POSTGRES_PASSWORD": f'{POSTGRES_PASSWORD}',
-    "POSTGRES_NON_ROOT_USER": POSTGRES_NON_ROOT_USER,
-    "POSTGRES_NON_ROOT_PASSWORD": f'{POSTGRES_NON_ROOT_PASSWORD}',
-}
-agent.write_envfile("database.env", db_config)
+agent.write_envfile("app.env",{
+  "HOST": HOST
+})
 
 
 # Make sure everything is saved inside the environment file
