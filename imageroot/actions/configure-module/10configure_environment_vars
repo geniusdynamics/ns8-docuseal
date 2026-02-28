@@ -7,25 +7,71 @@
 
 import json
 import sys
+import os
 import agent
 
-# Try to parse the stdin as JSON.
-# If parsing fails, output everything to stderr
 data = json.load(sys.stdin)
 host = data.get("host", "")
-HOST = "https://"+host
-#This is specific to you module, so you need to change it accordingly.
-# we read a json stdin {"vars1":true, "var2":"foo", "vars3": 3} and we writ it to .config/state/environment
-# Upper case to set environment variable and minor case to read from stdin
+HOST = "https://" + host
 
-# this values must exists in the json stdin
+rdb = agent.redis_connect(use_replica=True)
+smtp_settings = agent.get_smarthost_settings(rdb)
 
-# Configure postgres Variables to database.env
-agent.write_envfile("app.env",{
-  "HOST": HOST
-})
+smtp_enabled = smtp_settings.get("enabled", False)
+smtp_address = data.get("smtp_address") or (
+    smtp_settings.get("host") if smtp_enabled else ""
+)
+smtp_port = data.get("smtp_port") or (smtp_settings.get("port") if smtp_enabled else "")
+smtp_username = data.get("smtp_username") or (
+    smtp_settings.get("username") if smtp_enabled else ""
+)
+smtp_password = data.get("smtp_password") or (
+    smtp_settings.get("password") if smtp_enabled else ""
+)
+smtp_domain = data.get("smtp_domain") or smtp_settings.get("domain", "")
+smtp_from = data.get("smtp_from") or smtp_settings.get("from_address", "")
+smtp_authentication = data.get("smtp_authentication", "plain")
+smtp_enable_starttls = data.get(
+    "smtp_enable_starttls",
+    smtp_settings.get("encrypt_smtp") in ["tls", "starttls"] if smtp_enabled else True,
+)
+smtp_ssl_verify = data.get(
+    "smtp_ssl_verify", smtp_settings.get("tls_verify", True) if smtp_enabled else True
+)
 
+if smtp_address:
+    smtp_enabled = True
 
-# Make sure everything is saved inside the environment file
-# just before starting systemd unit
+agent.write_envfile(
+    "app.env",
+    {
+        "HOST": HOST,
+        "WEB_CONCURRENCY": data.get("web_concurrency", 1),
+        "SESSION_REMEMBER_DAYS": data.get("session_remember_days", 730),
+        "PRESIGNED_URLS_EXPIRE_MINUTES": data.get("presigned_urls_expire_minutes", 240),
+        "STRIPE_SECRET_KEY": data.get("stripe_secret_key", ""),
+        "GOTENBERG_URL": data.get("gotenberg_url", ""),
+        "AWS_ACCESS_KEY_ID": data.get("aws_access_key_id", ""),
+        "AWS_SECRET_ACCESS_KEY": data.get("aws_secret_access_key", ""),
+        "AWS_REGION": data.get("aws_region", ""),
+        "S3_ATTACHMENTS_BUCKET": data.get("s3_attachments_bucket", ""),
+        "GCS_CREDENTIALS": data.get("gcs_credentials", ""),
+        "GCS_PROJECT": data.get("gcs_project", ""),
+        "GCS_BUCKET": data.get("gcs_bucket", ""),
+        "AZURE_STORAGE_ACCOUNT_NAME": data.get("azure_storage_account_name", ""),
+        "AZURE_STORAGE_ACCESS_KEY": data.get("azure_storage_access_key", ""),
+        "AZURE_CONTAINER": data.get("azure_container", ""),
+        "SMTP_ENABLED": "1" if smtp_enabled else "",
+        "SMTP_ADDRESS": smtp_address,
+        "SMTP_PORT": smtp_port,
+        "SMTP_USERNAME": smtp_username,
+        "SMTP_PASSWORD": smtp_password,
+        "SMTP_DOMAIN": smtp_domain,
+        "SMTP_AUTHENTICATION": smtp_authentication,
+        "SMTP_FROM": smtp_from,
+        "SMTP_ENABLE_STARTTLS": "1" if smtp_enable_starttls else "",
+        "SMTP_SSL_VERIFY": "1" if smtp_ssl_verify else "",
+    },
+)
+
 agent.dump_env()
