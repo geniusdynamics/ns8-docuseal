@@ -14,13 +14,38 @@ import sys
 import json
 import agent
 
-# Prepare return variable
 config = {}
 
-# Read current configuration from the environment file
 config["host"] = os.getenv("TRAEFIK_HOST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
 config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 
-# Dump the configuration to stdout
+config["web_concurrency"] = int(os.getenv("WEB_CONCURRENCY", 1))
+config["session_remember_days"] = int(os.getenv("SESSION_REMEMBER_DAYS", 730))
+config["presigned_urls_expire_minutes"] = int(os.getenv("PRESIGNED_URLS_EXPIRE_MINUTES", 240))
+config["stripe_secret_key"] = os.getenv("STRIPE_SECRET_KEY", "")
+config["gotenberg_url"] = os.getenv("GOTENBERG_URL", "")
+
+config["aws_access_key_id"] = os.getenv("AWS_ACCESS_KEY_ID", "")
+config["aws_secret_access_key"] = os.getenv("AWS_SECRET_ACCESS_KEY", "")
+config["aws_region"] = os.getenv("AWS_REGION", "")
+config["s3_attachments_bucket"] = os.getenv("S3_ATTACHMENTS_BUCKET", "")
+
+config["gcs_credentials"] = os.getenv("GCS_CREDENTIALS", "")
+config["gcs_project"] = os.getenv("GCS_PROJECT", "")
+config["gcs_bucket"] = os.getenv("GCS_BUCKET", "")
+
+config["azure_storage_account_name"] = os.getenv("AZURE_STORAGE_ACCOUNT_NAME", "")
+config["azure_storage_access_key"] = os.getenv("AZURE_STORAGE_ACCESS_KEY", "")
+config["azure_container"] = os.getenv("AZURE_CONTAINER", "")
+
+config["smtp_address"] = os.getenv("SMTP_ADDRESS", "")
+config["smtp_port"] = os.getenv("SMTP_PORT", "")
+config["smtp_username"] = os.getenv("SMTP_USERNAME", "")
+config["smtp_domain"] = os.getenv("SMTP_DOMAIN", "")
+config["smtp_from"] = os.getenv("SMTP_FROM", "")
+config["smtp_authentication"] = os.getenv("SMTP_AUTHENTICATION", "plain")
+config["smtp_enable_starttls"] = os.getenv("SMTP_ENABLE_STARTTLS") == "1"
+config["smtp_ssl_verify"] = os.getenv("SMTP_SSL_VERIFY") == "1"
+
 json.dump(config, fp=sys.stdout)

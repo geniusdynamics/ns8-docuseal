@@ -31,6 +31,130 @@
             "type": "boolean",
             "title": "HTTP to HTTPS redirection",
             "description": "Redirect all the HTTP requests to HTTPS"
+        },
+        "web_concurrency": {
+            "type": "integer",
+            "title": "Web concurrency",
+            "description": "Number of web processes to launch",
+            "default": 1
+        },
+        "session_remember_days": {
+            "type": "integer",
+            "title": "Session remember days",
+            "description": "Login session duration in days",
+            "default": 730
+        },
+        "presigned_urls_expire_minutes": {
+            "type": "integer",
+            "title": "Presigned URLs expire minutes",
+            "description": "Expiration duration of presigned file urls",
+            "default": 240
+        },
+        "stripe_secret_key": {
+            "type": "string",
+            "title": "Stripe secret key",
+            "description": "Stripe API key"
+        },
+        "gotenberg_url": {
+            "type": "string",
+            "title": "Gotenberg URL",
+            "description": "Gotenberg app URL for DOCX and HTML support (Pro)"
+        },
+        "aws_access_key_id": {
+            "type": "string",
+            "title": "AWS access key ID",
+            "description": "The AWS access key ID for S3"
+        },
+        "aws_secret_access_key": {
+            "type": "string",
+            "title": "AWS secret access key",
+            "description": "The AWS secret access key for S3"
+        },
+        "aws_region": {
+            "type": "string",
+            "title": "AWS region",
+            "description": "The AWS region where the S3 bucket is located"
+        },
+        "s3_attachments_bucket": {
+            "type": "string",
+            "title": "S3 attachments bucket",
+            "description": "The name of the S3 bucket for storing attachments"
+        },
+        "gcs_credentials": {
+            "type": "string",
+            "title": "GCP credentials",
+            "description": "JSON string containing GCP credentials"
+        },
+        "gcs_project": {
+            "type": "string",
+            "title": "GCP project",
+            "description": "The GCP project ID"
+        },
+        "gcs_bucket": {
+            "type": "string",
+            "title": "GCS bucket",
+            "description": "The name of the GCP Storage bucket"
+        },
+        "azure_storage_account_name": {
+            "type": "string",
+            "title": "Azure storage account name",
+            "description": "The name of the Azure Storage account"
+        },
+        "azure_storage_access_key": {
+            "type": "string",
+            "title": "Azure storage access key",
+            "description": "The access key for the Azure Storage account"
+        },
+        "azure_container": {
+            "type": "string",
+            "title": "Azure container",
+            "description": "The name of the Azure Storage container"
+        },
+        "smtp_address": {
+            "type": "string",
+            "title": "SMTP server address",
+            "description": "The address of the SMTP server"
+        },
+        "smtp_port": {
+            "type": "string",
+            "title": "SMTP server port",
+            "description": "The port number for the SMTP server"
+        },
+        "smtp_username": {
+            "type": "string",
+            "title": "SMTP username",
+            "description": "The username for the SMTP server"
+        },
+        "smtp_password": {
+            "type": "string",
+            "title": "SMTP password",
+            "description": "The password for authenticating with the SMTP server"
+        },
+        "smtp_domain": {
+            "type": "string",
+            "title": "SMTP domain",
+            "description": "The domain used in the HELO command"
+        },
+        "smtp_from": {
+            "type": "string",
+            "title": "SMTP from",
+            "description": "Email address to send emails from"
+        },
+        "smtp_authentication": {
+            "type": "string",
+            "title": "SMTP authentication",
+            "description": "The authentication method for the SMTP server",
+            "enum": ["plain", "login"]
+        },
+        "smtp_enable_starttls": {
+            "type": "boolean",
+            "title": "SMTP enable STARTTLS",
+            "description": "Pass false to disable STARTTLS"
+        },
+        "smtp_ssl_verify": {
+            "type": "boolean",
+            "title": "SMTP SSL verify",
+            "description": "Pass false to disable trusted certificate chain verification"
         }
     }
 }
