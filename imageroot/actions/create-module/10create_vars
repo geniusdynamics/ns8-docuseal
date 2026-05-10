@@ -33,16 +33,16 @@ POSTGRES_PORT = data.get("POSTGRES_PORT", "5432")
 POSTGRES_NON_ROOT_USER = data.get("POSTGRES_NON_ROOT_USER", "docuseal")
 POSTGRES_NON_ROOT_PASSWORD = generate_random_password(16)
 
+url = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:5432/{POSTGRES_DB}'
 db_config = {
     "POSTGRES_DB": POSTGRES_DB,
     "POSTGRES_USER": POSTGRES_USER,
     "POSTGRES_PASSWORD": f"{POSTGRES_PASSWORD}",
     "POSTGRES_NON_ROOT_USER": POSTGRES_NON_ROOT_USER,
     "POSTGRES_NON_ROOT_PASSWORD": f"{POSTGRES_NON_ROOT_PASSWORD}",
+    "DATABASE_URL": url
 }
 agent.write_envfile("database.env", db_config)
-
-
 # Make sure everything is saved inside the environment file
 # just before starting systemd unit
 agent.dump_env()
