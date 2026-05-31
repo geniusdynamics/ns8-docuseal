@@ -26,7 +26,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/docuseal-app.pid \
     --volume docuseal-app:/data/docuseal:Z \
     --env=DOCUSEAL_* \
     --env=HOST=${HOST} \
-    --env DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_ROOT_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE}" \
+    --env=DATABASE_URL=${DATABASE_URL} \
     ${DOCUSEAL_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/docuseal-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP docuseal-app
