@@ -18,7 +18,8 @@ reponame="docuseal"
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
 
-docuseal_version="2.5.2"
+# renovate: datasource=docker packageName=docker.io/docuseal/docuseal
+docuseal_version=2.5.2
 
 # Create a new empty container image
 container=$(buildah from scratch)
