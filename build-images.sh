@@ -18,7 +18,8 @@ reponame="docuseal"
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
 
-docuseal_version="2.5.2"
+# renovate: datasource=docker packageName=docker.io/docuseal/docuseal
+docuseal_version=2.5.2
 
 # Create a new empty container image
 container=$(buildah from scratch)
@@ -51,6 +52,7 @@ buildah config --entrypoint=/ \
 	--label="org.nethserver.authorizations=traefik@node:routeadm" \
 	--label="org.nethserver.tcp-ports-demand=1" \
 	--label="org.nethserver.rootfull=0" \
+    --label="org.nethserver.min-core=3.0.0" \
 	--label="org.nethserver.images=docker.io/postgres:15.20-alpine3.24 docker.io/docuseal/docuseal:${docuseal_version}" \
 	"${container}"
 # Commit the image
